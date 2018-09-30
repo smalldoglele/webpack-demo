@@ -1,33 +1,22 @@
 const path=require('path');
+const HtmlWebpackPlugin=require("html-webpack-plugin");
+const CleanWebpackPlugin=require("clean-webpack-plugin");
 
 module.exports={
-    entry:'./src/index.js',
-    output:{
-        filename:'bundle.js',
-        path:path.resolve(__dirname,'dist')
+    entry:{
+        app:'./src/index.js',
+        print:'./src/print.js'
     },
-    module:{
-        rules:[
-            {
-                test:/\.css$/,
-                use:['style-loader','css-loader']
-            },
-            {
-                test:/\.(png|svg|gif|jpg|ico)$/,
-                use:['file-loader']
-            },
-            {
-                test:/\.(woff|woff2|eot|otf|ttf)$/,
-                use:['file-loader']
-            },
-            {
-                test:/\.(csv|tsv)$/,
-                use:['csv-loader']
-            },
-            {
-                test:/\.xml$/,
-                use:['xml-loader']
-            }
-        ]
+    devServer:{
+        contentBase:'./dist'
+    },
+    devtool:'inline-source-map',
+    plugins:[
+        new CleanWebpackPlugin(['dist']),
+        new HtmlWebpackPlugin({title:'开发环境'})
+    ],
+    output:{
+        filename:'[name].bundle.js',
+        path:path.resolve(__dirname,'dist')
     }
 };
